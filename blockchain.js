@@ -14,9 +14,28 @@ class Blockchain {
   }
 
   addBlock(newBlock) {
-    newBlock.previousBlockHeader = this.getLatestBlock().header;
+    newBlock.previousBlockHeader = this.getLastBlock().header;
     newBlock.header              = newBlock.calculateHash();
     this.chain.push(newBlock);
+  }
+
+  isChainValid() {
+    for (let i = 1; i < this.chain.length; i++) {
+      let currentBlock  = this.chain[i]
+      let previousBlock = this.chain[i - 1]
+
+      console.log("previousBlock.header", previousBlock.header)
+      console.log("currentBlock.previousBlockHeader", currentBlock.previousBlockHeader)
+
+      if(currentBlock.header !== currentBlock.calculateHash()) {
+        return false;
+      }
+
+      if(currentBlock.previousBlockHeader !== previousBlock.header) {
+        return false;
+      }
+    }
+    return true
   }
 }
 
