@@ -1,22 +1,22 @@
-const Block = require('./block');
+const Block = require('./block')
 
 class Blockchain {
   constructor() {
-    this.chain = [this.createGenesisBlock()];
+    this.chain = [this.createGenesisBlock()]
   }
 
   createGenesisBlock() {
-    return new Block(0, "This Is The Genesis Block", {coinAmount : 10}, Date());
+    return new Block(0, "This Is The Genesis Block", {coinAmount : 10}, Date())
   }
 
   getLastBlock() {
-    return this.chain[this.chain.length - 1];
+    return this.chain[this.chain.length - 1]
   }
 
   addBlock(newBlock) {
-    newBlock.previousBlockHeader = this.getLastBlock().header;
-    newBlock.header              = newBlock.calculateHash();
-    this.chain.push(newBlock);
+    newBlock.previousBlockHeader = this.getLastBlock().header
+    newBlock.header              = newBlock.calculateHash()
+    this.chain.push(newBlock)
   }
 
   isChainValid() {
@@ -24,15 +24,12 @@ class Blockchain {
       let currentBlock  = this.chain[i]
       let previousBlock = this.chain[i - 1]
 
-      console.log("previousBlock.header", previousBlock.header)
-      console.log("currentBlock.previousBlockHeader", currentBlock.previousBlockHeader)
-
       if(currentBlock.header !== currentBlock.calculateHash()) {
-        return false;
+        return false
       }
 
       if(currentBlock.previousBlockHeader !== previousBlock.header) {
-        return false;
+        return false
       }
     }
     return true
